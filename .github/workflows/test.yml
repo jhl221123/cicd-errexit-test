@@ -23,8 +23,7 @@ jobs:
         run: |
           echo "Starting Scenario 1 (Gradle without set -e)..."
           OUTPUT_VALUE=$(./gradlew -q alwaysFail)
-          GRADLE_EXIT_CODE=$?
-          echo "$GRADLE_EXIT_CODE" >> $GITHUB_OUTPUT
+          echo "OUTPUT_VALUE" >> $GITHUB_OUTPUT
           echo "Scenario 1 finished. Exit code of 'echo' command will be 0."
           # If Gradle fails, $(...) returns empty, and echo makes the step succeed.
 
@@ -47,8 +46,7 @@ jobs:
           set -e
           echo "Starting Scenario 2 (Gradle with set -e)..."
           OUTPUT_VALUE=$(./gradlew -q alwaysFail)
-          GRADLE_EXIT_CODE=$?
-          echo "$GRADLE_EXIT_CODE" >> $GITHUB_OUTPUT
+          echo "OUTPUT_VALUE" >> $GITHUB_OUTPUT
           # The following lines should not be executed.
           echo "This line in Scenario 2 SHOULD NOT be printed if Gradle failed."
           echo "result2=$OUTPUT_FROM_GRADLE" >> $GITHUB_OUTPUT
