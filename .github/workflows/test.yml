@@ -5,8 +5,8 @@ on:
   push:
 
 jobs:
-  scenario1_gradle_no_set_e_should_succeed_step:
-    name: Scenario 1 - Gradle Fail (no set -e) - Step Should LIKELY SUCCEED
+  scenario1:
+    name: Scenario 1 - Job Should SUCCEED
     runs-on: ubuntu-latest
     steps:
       - name: Checkout project code
@@ -18,18 +18,15 @@ jobs:
           distribution: 'temurin'
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
-      - name: Run Gradle task (no set -e)
+      - name: Run Gradle task
         id: scenario1_step
         run: |
-          echo "Starting Scenario 1 (Gradle without set -e)..."
-          #echo "result=$(./gradlew -q alwaysFail)" >> $GITHUB_OUTPUT
-          result=$(./gradlew -q alwaysFail)
-          echo "result" >> $GITHUB_OUTPUT
-          echo "Scenario 1 finished. Exit code of 'echo' command will be 0."
-          # If Gradle fails, $(...) returns empty, and echo makes the step succeed.
+          echo "Starting Scenario 1..."
+          echo "result=$(./gradlew -q alwaysFail)" >> $GITHUB_OUTPUT
+          echo "Scenario 1 finished."
 
-  scenario2_gradle_with_set_e_should_fail_step:
-    name: Scenario 2 - Gradle Fail (with set -e) - Step Should FAIL
+  scenario2:
+    name: Scenario 2 - Job Should FAIL
     runs-on: ubuntu-latest
     steps:
       - name: Checkout project code
@@ -41,14 +38,10 @@ jobs:
           distribution: 'temurin'
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
-      - name: Run Gradle task (with set -e)
+      - name: Run Gradle task
         id: scenario2_step
         run: |
-          set -e
-          echo "Starting Scenario 2 (Gradle with set -e)..."
-          OUTPUT_VALUE=$(./gradlew -q alwaysFail)
-          echo "OUTPUT_VALUE" >> $GITHUB_OUTPUT
-          # The following lines should not be executed.
-          echo "This line in Scenario 2 SHOULD NOT be printed if Gradle failed."
-          echo "result2=$OUTPUT_FROM_GRADLE" >> $GITHUB_OUTPUT
-          echo "Scenario 2 finished (only if Gradle command succeeded)."
+          echo "Starting Scenario 2..."
+          result=$(./gradlew -q alwaysFail)
+          echo "result" >> $GITHUB_OUTPUT
+          echo "Scenario 2 finished."
