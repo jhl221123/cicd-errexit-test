@@ -42,6 +42,6 @@ jobs:
         id: scenario2_step
         run: |
           echo "Starting Scenario 2..."
-          result=$(./gradlew -q alwaysFail)
-          echo "result" >> $GITHUB_OUTPUT
+          task_stdout=$(./gradlew -q alwaysFail)
+          echo "result=$task_stdout" >> $GITHUB_OUTPUT
           echo "Scenario 2 finished."
