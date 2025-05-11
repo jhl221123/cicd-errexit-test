@@ -21,6 +21,12 @@ tasks.named('test') {
 tasks.register('alwaysFail') {
     doLast {
         println "This task will always fail."
-        //throw new GradleException("Intentionally failing task");
+        throw new GradleException("Intentionally failing task");
+    }
+}
+
+tasks.register('alwaysSuccess') {
+    doLast {
+        println "This task will always success."
     }
 }

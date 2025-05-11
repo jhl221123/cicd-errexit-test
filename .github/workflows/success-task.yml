@@ -22,11 +22,11 @@ jobs:
         id: scenario1_step
         run: |
           echo "Starting Scenario 1..."
-          echo "result=$(./gradlew -q alwaysFail)" >> $GITHUB_OUTPUT
+          echo "result=$(./gradlew -q alwaysSuccess)" >> $GITHUB_OUTPUT
           echo "Scenario 1 finished."
 
   scenario2:
-    name: Scenario 2 - Job Should FAIL
+    name: Scenario 2 - Job Should SUCCEED
     runs-on: ubuntu-latest
     steps:
       - name: Checkout project code
@@ -42,6 +42,6 @@ jobs:
         id: scenario2_step
         run: |
           echo "Starting Scenario 2..."
-          task_stdout=$(./gradlew -q alwaysFail)
-          echo "result=$task_stdout" >> $GITHUB_OUTPUT
+          result=$(./gradlew -q alwaysSuccess)
+          echo "output=$result" >> $GITHUB_OUTPUT
           echo "Scenario 2 finished."
