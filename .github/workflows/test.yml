@@ -1,0 +1,51 @@
+name: Test Gradle Failure Handling
+
+on:
+  workflow_dispatch:
+  push:
+
+jobs:
+  scenario1_gradle_no_set_e_should_succeed_step:
+    name: Scenario 1 - Gradle Fail (no set -e) - Step Should LIKELY SUCCEED
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout project code
+        uses: actions/checkout@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+      - name: Run Gradle task (no set -e)
+        id: scenario1_step
+        run: |
+          echo "Starting Scenario 1 (Gradle without set -e)..."
+          echo "result_s1=$(./gradlew -q alwaysFail 2>/dev/null || echo "gradle_command_failed_but_echo_continues")" >> $GITHUB_OUTPUT
+          echo "Scenario 1 finished. Exit code of 'echo' command will be 0."
+          # If Gradle fails, $(...) returns empty, and echo makes the step succeed.
+
+  scenario2_gradle_with_set_e_should_fail_step:
+    name: Scenario 2 - Gradle Fail (with set -e) - Step Should FAIL
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout project code
+        uses: actions/checkout@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+      - name: Run Gradle task (with set -e)
+        id: scenario2_step
+        run: |
+          set -e
+          echo "Starting Scenario 2 (Gradle with set -e)..."
+          OUTPUT_FROM_GRADLE=$(./gradlew -q alwaysFail)
+          # The following lines should not be executed.
+          echo "This line in Scenario 4 SHOULD NOT be printed if Gradle failed."
+          echo "result_s4=$OUTPUT_FROM_GRADLE" >> $GITHUB_OUTPUT
+          echo "Scenario 4 finished (only if Gradle command succeeded)."

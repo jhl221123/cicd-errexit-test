@@ -1,0 +1,26 @@
+plugins {
+    id 'java'
+}
+
+group = 'mre'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+dependencies {
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+tasks.register('alwaysFail') {
+    doLast {
+        println "This task will always fail."
+        throw new GradleException("Intentionally failing task");
+    }
+}
