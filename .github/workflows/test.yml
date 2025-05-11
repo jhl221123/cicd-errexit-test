@@ -22,9 +22,9 @@ jobs:
         id: scenario1_step
         run: |
           echo "Starting Scenario 1 (Gradle without set -e)..."
-          echo "result=$(./gradlew -q alwaysFail)" >> $GITHUB_OUTPUT
-          #OUTPUT_VALUE=$(./gradlew -q alwaysFail)
-          #echo "OUTPUT_VALUE" >> $GITHUB_OUTPUT
+          #echo "result=$(./gradlew -q alwaysFail)" >> $GITHUB_OUTPUT
+          result=$(./gradlew -q alwaysFail)
+          echo "result" >> $GITHUB_OUTPUT
           echo "Scenario 1 finished. Exit code of 'echo' command will be 0."
           # If Gradle fails, $(...) returns empty, and echo makes the step succeed.
 
